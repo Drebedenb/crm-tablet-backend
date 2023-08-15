@@ -8,4 +8,5 @@ urlpatterns = router.urls
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('login', AuthenticateUser.as_view()),
 ]
