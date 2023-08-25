@@ -19,7 +19,7 @@ def generate_jwt_token(user_id, user_name):
 def jwt_authentication_middleware(get_response):
     def middleware(request):
         authorization_header = request.headers.get('Authorization', '')
-        if authorization_header.startswith('Login'):
+        if request.path.endswith('/login'):
             return get_response(request)
         if authorization_header.startswith('Bearer'):
             token = authorization_header.split(' ')[1]
