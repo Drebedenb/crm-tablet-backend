@@ -6,11 +6,9 @@ from config.settings import SECRET_KEY
 from datetime import datetime, timedelta
 
 
-def generate_jwt_token(user_id, user_name):
+def generate_jwt_token(expiration_in_days):
     payload = {
-        'user_id': user_id,
-        'user_name': user_name,
-        'exp': datetime.utcnow() + timedelta(days=1),
+        'exp': datetime.utcnow() + timedelta(days=expiration_in_days),
     }
     token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
     return token
@@ -26,7 +24,6 @@ def jwt_authentication_middleware(get_response):
             try:
                 payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
                 user_id = payload['user_id']
-                print(user_id)
                 user = WorkersMain.objects.get(id=user_id)
                 if not user:
                     return HttpResponseForbidden('There is no such user')
