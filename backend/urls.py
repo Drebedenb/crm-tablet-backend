@@ -1,12 +1,9 @@
 from django.urls import path, include
-from .views import *
-from rest_framework import routers
 
-router = routers.SimpleRouter()
-router.register(r'workers', WorkerViewSet)
-urlpatterns = router.urls
+from .views import OrdersList, AuthenticateUser
+
 
 urlpatterns = [
-    path('', include(router.urls)),
     path('login', AuthenticateUser.as_view()),
+    path('orders', OrdersList.as_view()),
 ]
